@@ -18,6 +18,7 @@ Mutation
 Evaluation
 """
 import time
+
 start_time = time.time()
 import numpy as np
 import random
@@ -28,10 +29,11 @@ from evol_utils.Crossover import crossover, parent_comparison
 
 
 def Sort(sub_li):
-	sub_li.sort(key = lambda x: x[1])
-	return sub_li
+    sub_li.sort(key=lambda x: x[1])
+    return sub_li
 
-#RANDOM INITIALIZATION OF CHROMOSOMES
+
+# RANDOM INITIALIZATION OF CHROMOSOMES
 """
 Here, we initialize the population as a list of [[chromosome_1,9],[...]]
 each [[...]] is a chromosome_pair
@@ -40,11 +42,11 @@ population_size = 1000
 board_size = 20
 population = intialize_population_random(population_size, board_size)
 
-#this line check the condition, fitness = 0
+# this line check the condition, fitness = 0
 element_in_sublists = [0 in chromosome_pair[0] for chromosome_pair in population]
 
 iterations = 0
-while not (any(element_in_sublists)) and (iterations < 200 ):
+while not (any(element_in_sublists)) and (iterations < 200):
     print(f"Iteration: {iterations}")
     iterations += 1
     # FITNESS CALCULATION
@@ -57,7 +59,7 @@ while not (any(element_in_sublists)) and (iterations < 200 ):
         fitness_value = fitness_calculation(chromosome_pair)
         population[i][1] = fitness_value
 
-    #PARENT SELECTION
+    # PARENT SELECTION
     """
     We're performnig parente selection, with two methods:
     - elite selecition
@@ -68,30 +70,33 @@ while not (any(element_in_sublists)) and (iterations < 200 ):
     population = Sort(population)
 
     elite = ceil(population_size * 0.1)
-    elite_chromosomes= population[0:elite]
-
+    elite_chromosomes = population[0:elite]
 
     ##RANDOM SELECTION && CROSSOVER
     for i, chromosome_pair in enumerate(population):
         if random.random() >= 0.15:
-            #creating the child with type child = [[chromosome],9]
-            child = crossover(chromosome_pair[0], population[random.randint(0,population_size - 1)][0],board_size)
-            #calculating fitness value and adding it to child
+            # creating the child with type child = [[chromosome],9]
+            child = crossover(
+                chromosome_pair[0],
+                population[random.randint(0, population_size - 1)][0],
+                board_size,
+            )
+            # calculating fitness value and adding it to child
             child[1] = fitness_calculation(child)
-            #tournament selection
+            # tournament selection
             """
             selected = parent_comparison(chromosome_pair,child)
             population[i] = selected
             """
-            #Bad repo selection
+            # Bad repo selection
             population.append(child)
 
     sorting = Sort(population)
     population = population[0:population_size]
 
-    population = population[0:population_size-elite]
+    population = population[0 : population_size - elite]
     population = elite_chromosomes + population
-    #CHECK FOR CONDITION
+    # CHECK FOR CONDITION
     element_in_sublists = [0 in chromosome_pair for chromosome_pair in population]
     print("iteration completed")
 

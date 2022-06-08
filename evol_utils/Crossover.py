@@ -1,17 +1,16 @@
-
 import random
 
 
-def crossover(parent_1: list[...], parent_2:list[...], board_size: int) -> list[...]:
-    #selecting random points to create allele
-    first_point = random.randint(0,6)
-    second_point = random.randint(first_point+1,7)
+def crossover(parent_1: list[...], parent_2: list[...], board_size: int) -> list[...]:
+    # selecting random points to create allele
+    first_point = random.randint(0, 6)
+    second_point = random.randint(first_point + 1, 7)
 
     child = l = [None] * board_size
-    alleles = parent_1[first_point:second_point+1]
+    alleles = parent_1[first_point : second_point + 1]
 
     for i, allele in enumerate(alleles):
-        child[first_point+i] = allele
+        child[first_point + i] = allele
 
     for i, allele in enumerate(child):
         if child[i] == None:
@@ -20,18 +19,19 @@ def crossover(parent_1: list[...], parent_2:list[...], board_size: int) -> list[
                     child[i] = j
                     break
 
-    return[child,9]
+    return [child, 9]
+
 
 def Sort(sub_li):
-	sub_li.sort(key = lambda x: x[1])
-	return sub_li
+    sub_li.sort(key=lambda x: x[1])
+    return sub_li
+
 
 def parent_comparison(parent_1: list[...], child: list[...]) -> list[...]:
-    sample = [parent_1,child]
+    sample = [parent_1, child]
     sample = Sort(sample)
 
     return sample[0]
-
 
 
 """
